@@ -2,14 +2,17 @@ package com.mmall.controller.portal;
 
 import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
+import com.mmall.common.TokenCache;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -52,4 +55,32 @@ public class UserController {
     public  ServerResponse<String> checkValid(String str,String type){
         return iUserService.checkValid(str,type);
     }
+
+    @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<User> getUserInfo(HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if(user != null){
+            return ServerResponse.createBysuccess(user);
+        }
+        return ServerResponse.createByErrorMessage("未登陆，无法获取用户信息");
+    }
+    @RequestMapping(value = "forget_get_question.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> forgetGetQuestion(String username){
+        return iUserService.selectQuestion(username);
+    }
+
+    @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer){
+            return iUserService.checkAnswer(username,question,answer);
+    }
+
+    @RequestMapping(value = "forget_reset_password.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken){
+        return iUserService.forgetResetPassword(username,passwordNew,forgetToken);
+    }
+
 }
