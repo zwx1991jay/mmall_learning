@@ -184,7 +184,22 @@
 
   <update id="updatePasswordByUsername"  parameterType="map">
           UPDATE mmall_user
-          SET password=#{passwordNew} , updatetime=now()
+          SET password=#{passwordNew} , update_time=now()
           WHERE username=#{username}
   </update>
+
+  <select id="checkPassword" resultType="int" parameterType="map">
+    SELECT count(1)
+    FROM mmall_user
+    where id=#{userId}
+    and password=#{password}
+  </select>
+
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    SELECT count(1)
+    FROM mmall_user
+    where email=#{email}
+    and id!=#{userId}
+  </select>
+
 </mapper>
