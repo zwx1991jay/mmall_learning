@@ -43,7 +43,7 @@ public class UserServiceImpl implements IUserService {
         if(!validResponse.isSuccess()){
             return validResponse;
         }
-        validResponse = this.checkValid(user.getUsername(),Const.EMAIL);
+        validResponse = this.checkValid(user.getEmail(),Const.EMAIL);
         if(!validResponse.isSuccess()){
             return validResponse;
         }

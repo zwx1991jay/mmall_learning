@@ -94,7 +94,7 @@ public class UserController {
         return iUserService.resetPassword(passwordOld,passwordNew,user);
     }
 
-    @RequestMapping(value = "update_infomation.do",method = RequestMethod.POST)
+    @RequestMapping(value = "update_information.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> update_information(HttpSession session,User user){
         User currnetUser = (User)session.getAttribute(Const.CURRENT_USER);
